@@ -1,61 +1,58 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
-import AddBookmark from './addBookmark/addBookmark';
-import BookmarkApp from './bookmarkApp/bookmarkApp';
+import AddBookmark from "./addBookmark/addBookmark";
+import BookmarkApp from "./bookmarkApp/bookmarkApp";
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       bookmarks: [],
-      showAddForm: false
+      showAddForm: false,
     };
   }
 
   componentDidMount() {
-    const url = 'http://localhost:8081/v3/bookmarks';
+    const url = "http://localhost:8081/v3/bookmarks";
     const options = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        "Authorization": "Bearer $2a$10$ZhdeJefcb.5sx/DCmO/n8u5sJLcARAdbHw9tfm1mevGRq3s1.5DpW",
-        "Content-Type": "application/json"
-      }
+        Authorization:
+          "Bearer $2a$10$JDRArK3Qrg9PUirrbxVR0OlKQKPhW97aDNv5Lk6KVj00jnVcXxJZ2",
+        "Content-Type": "application/json",
+      },
     };
 
     fetch(url, options)
-      .then(res => {
-        if(!res.ok) {
-          throw new Error('Something went wrong, please try again later.');
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Something went wrong, please try again later.");
         }
         return res;
       })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         this.setState({
           bookmarks: data,
-          error: null
+          error: null,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
-          error: err.message
+          error: err.message,
         });
       });
-
   }
 
   render() {
-    const page = this.state.showAddForm
-          ? <AddBookmark />
-          : <BookmarkApp bookmarks={this.state.bookmarks}/>; 
-
-    return (
-      <div className="App">
-        { page }
-      </div>
+    const page = this.state.showAddForm ? (
+      <AddBookmark />
+    ) : (
+      <BookmarkApp bookmarks={this.state.bookmarks} />
     );
+
+    return <div className="App">{page}</div>;
   }
 }
 
